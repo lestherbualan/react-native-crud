@@ -5,19 +5,23 @@ import DashboardScreen from "../Screens/DashboardScreen"
 import GetDirectionScreen from "../Screens/GetDirectionScreen"
 import WorkTicketScreen from "../Screens/WorkTicketScreen"
 import CustomHeader from '../Component/CustomHeader'
+import AddTicketScreen from '../Screens/AddTicketScreen';
 
 const screens = {
     Dashboard: {
         screen: DashboardScreen,
-        navigationOptions: {
-            headerTitle: ()=> <CustomHeader />
-        }
+        navigationOptions: ({navigation}) => ({
+            headerTitle: () => <CustomHeader navigation = { navigation }/>
+        })
     },
     GetDirection: {
         screen: GetDirectionScreen
     },
     WorkTicket: {
         screen: WorkTicketScreen
+    },
+    AddTicket: {
+        screen: AddTicketScreen
     }
 }
 

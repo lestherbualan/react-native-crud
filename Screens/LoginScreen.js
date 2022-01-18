@@ -10,26 +10,26 @@ import {
 } from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 
-const db = SQLite.openDatabase(
-    {
-        name: 'mainDatabase',
-        location: 'default'
-    },
-    ()=>{},
-    error => {console.log(error)}
-)
+// const db = SQLite.openDatabase(
+//     {
+//         name: 'mainDatabase',
+//         location: 'default'
+//     },
+//     ()=>{},
+//     error => {console.log(error)}
+// )
 
 export default function LoginScreen(){
-    useEffect(()=>{
-        console.log('hello world')
-        createTable();
-    });
+    // useEffect(()=>{
+    //     console.log('hello world')
+    //     createTable();
+    // });
 
-    const createTable = ()=> {
-        db.transaction((transact)=>{
-            transact.executeSql('CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Password TEXT)')
-        })
-    }
+    // const createTable = ()=> {
+    //     db.transaction((transact)=>{
+    //         transact.executeSql('CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Password TEXT)')
+    //     })
+    // }
     return (
         <View style={style.container}>
             <View>

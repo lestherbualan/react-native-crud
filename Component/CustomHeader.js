@@ -8,8 +8,12 @@ import {
 } from 'react-native'
 import Fontawesome from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AddTicketScreen from '../Screens/AddTicketScreen';
 
-export default function DashboardHeader(){
+export default function DashboardHeader({navigation}){
+    const addTicket = () =>{
+        navigation.navigate('AddTicket')
+    }
     const showToast = () =>{
         ToastAndroid.show('This is toast!',ToastAndroid.SHORT);
     }
@@ -33,7 +37,7 @@ export default function DashboardHeader(){
                 <Text style={styles.dashboardText}>Dashboard</Text>
             </View>
             <View style={styles.rightHeaderContainer}>
-                <TouchableOpacity onPress={showToast}>
+                <TouchableOpacity onPress={addTicket}>
                     <View style={styles.headerItems,{marginRight: 10}}>
                         <Fontawesome name='plus' size={20} color='green' style={{width: 20, alignSelf: 'center'}}/>
                         <Text style={styles.headerItemText}>New</Text>
