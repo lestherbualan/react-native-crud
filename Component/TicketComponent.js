@@ -10,8 +10,8 @@ import {
 
 export default function Ticket(props){
     const [ticketData, setTicketData] = useState([]);
-    const viewTicketHandler = () => {
-        props.navigation.navigate('WorkTicket');
+    const viewTicketHandler = (itemId) => {
+        props.navigation.navigate('WorkTicket',itemId);
     }
 
     useEffect(() => {
@@ -34,7 +34,9 @@ export default function Ticket(props){
                             </Text>
                         </View>
                         <View style={styles.viewTicket}>
-                            <TouchableOpacity style={styles.viewTicketBtn} onPress={viewTicketHandler}>
+                            <TouchableOpacity style={styles.viewTicketBtn} onPress={()=>{
+                                viewTicketHandler(item.id)
+                            }}>
                                 <Text style={{color: '#ffffff'}}>View Ticket</Text>
                             </TouchableOpacity>
                         </View>
@@ -55,7 +57,8 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: 15,
     },
     viewTicketBtn: {
         backgroundColor: '#3dcb01',

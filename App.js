@@ -11,6 +11,9 @@ export default function App(){
 
   const createTable = () =>{
     db.transaction(transac => {
+
+      //transac.executeSql('DROP TABLE IF EXISTS tickets');
+
       transac.executeSql(
         `CREATE TABLE IF NOT EXISTS tickets (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,14 +39,8 @@ export default function App(){
     });
   }
 
-  const dropTableIfExist = () =>{
-    db.transaction(transac => {
-      transac.executeSql('DROP TABLE IF EXISTS tickets');
-    });
-  }
 
   useEffect(() => {
-    //dropTableIfExist();
     createTable();
   },[])
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import {
     Text,
     View,
@@ -7,67 +7,93 @@ import {
     TouchableOpacity
 } from 'react-native';
 import moment from 'moment';
+import { openDatabase } from 'react-native-sqlite-storage'
 
-export default function WorkTicketScreen() {
+const db = openDatabase({
+    name: 'test'
+  });
+
+export default function WorkTicketScreen({navigation}) {
+
+    const [selectedItem, setSelectedItem] = useState();
+
+    useEffect(() => {
+        db.transaction((tranx) => {
+            tranx.executeSql(
+                "SELECT * FROM tickets WHERE id = ?",
+                [navigation.state.params],
+                (_, res) => {
+                    const rawresult = res.rows.raw()
+                    setSelectedItem(rawresult);
+                }
+            )
+        });
+    },[])
+
     const date = moment().format("LLLL");
-    return (
-        <ScrollView>
+
+    if (selectedItem != null){
+        return (
             <View style={styles.mainContainer}>
-                <View style={styles.container}>
-                    <View style={styles.wrapper}>
-                        <Text style={styles.titles}>Customer Info:</Text>
-                        <Text style={styles.info}>Lesther Bualan</Text>
-                    </View>
-                    <View style={styles.wrapper}>
-                        <Text style={styles.titles}>Schedule For:</Text>
-                        <Text style={styles.info}>{date}</Text>
-                    </View>
-                </View>
-                <View style={styles.containerNoPadding}>
-                    <View style={styles.leftContainer}>
-                        <View style={styles.flexRow}>
-                            <View style={styles.wrapper}>
-                                <Text style={styles.titles}>Job Site Addres:</Text>
-                                <Text style={styles.info}>27 Brookview Dr North York, On M6A 2k4</Text>
-                            </View>
-                            <View style={styles.wrapper,{alignContent: 'flex-end'}}>
-                                <TouchableOpacity style={styles.getDirectionBnt}>
-                                    <Text style={{color: '#ffffff'}}>Get Direction</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={styles.container}>
+                        <View style={styles.wrapper}>
+                            <Text style={styles.titles}>Customer Info:</Text>
+                            <Text style={styles.info}>{selectedItem[0].customerName}, {selectedItem[0].id}</Text>
                         </View>
-                        <View>
-                            <Text style={styles.titles}>Distance:</Text>
-                            <Text style={styles.info}>Approx. 17 Minutes</Text>
-                            <Text>11.9 miles</Text>
+                        <View style={styles.wrapper}>
+                            <Text style={styles.titles}>Schedule For:</Text>
+                            <Text style={styles.info}>{selectedItem[0].schedule}</Text>
                         </View>
                     </View>
-                    <View style={styles.wrapper}>
-                        <View style={styles.containerNoFlex}>
-                            <Text style={styles.titles}>Dispatch Note:</Text>
-                            <Text style={styles.dispatchNoteInfo}>$89 Diagnostic Fee Air Handler Horizontial in the Attic, Condencer in the Backyard Unit turns on and blow warm air. 
-
-                            Problem started 2 days ago and have never had an issue with unit. A/C unit is approx 15 years old.
-                            </Text>
-                        </View>
-
-                        <View>
+                    <View style={styles.containerNoPadding}>
+                        <View style={styles.leftContainer}>
                             <View style={styles.flexRow}>
-                                <View style={styles.flexRow}>
-                                    <Text style={styles.titles}>Dept. Class:</Text>
-                                    <Text style={styles.info}>Plumbing</Text>
+                                <View style={styles.wrapper}>
+                                    <Text style={styles.titles}>Job Site Addres:</Text>
+                                    <Text style={styles.info}>{selectedItem[0].address}</Text>
                                 </View>
+                                <View style={styles.wrapper,{alignContent: 'flex-end'}}>
+                                    <TouchableOpacity style={styles.getDirectionBnt}>
+                                        <Text style={{color: '#ffffff'}}>Get Direction</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View>
+                                <Text style={styles.titles}>Distance:</Text>
+                                <Text style={styles.info}> Approx. 17 minutes</Text>
+                                <Text>{selectedItem[0].distance}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.wrapper}>
+                            <View style={styles.containerNoFlex}>
+                                <Text style={styles.titles}>Dispatch Note:</Text>
+                                <Text style={styles.dispatchNoteInfo}>
+                                    {selectedItem[0].dispatchNote}
+                                </Text>
+                            </View>
+
+    
+                            <View>
                                 <View style={styles.flexRow}>
-                                    <Text style={styles.titles}>Service Type:</Text>
-                                    <Text style={styles.info}>Plumbing</Text>
+                                    <View style={styles.flexRow}>
+                                        <Text style={styles.titles}>Dept. Class:</Text>
+                                        <Text style={styles.info}>{selectedItem[0].departmentClass}</Text>
+                                    </View>
+                                    <View style={styles.flexRow}>
+                                        <Text style={styles.titles}>Service Type:</Text>
+                                        <Text style={styles.info}>{selectedItem[0].serviceType}</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
                     </View>
-                </View>
             </View>
-        </ScrollView>
+        )
+    }
+    return(
+        <Text>No Data Found</Text>
     )
+    
 }
 const styles = StyleSheet.create({
     mainContainer: {

@@ -20,6 +20,7 @@ export default function DashboardScreen({navigation}) {
     
     useEffect(() => {
         db.transaction((tranx) => {
+            /*
             tranx.executeSql(
                 `INSERT INTO tickets (
                     ticketTitle,
@@ -44,17 +45,16 @@ export default function DashboardScreen({navigation}) {
                     'Call Back',
                     'Low water pressure'
                 )`
-            ),
+            ),*/
             tranx.executeSql(
                 "SELECT * FROM tickets",
                 [],
                 (_, res) => {
                     setTickets(res.rows.raw())
-                    console.log(res.rows.raw())
                 }
             )
         })
-    },[])
+    })
     return (
         <View style={styles.mainContainer}>
             <View style={styles.dateWrapper}>
