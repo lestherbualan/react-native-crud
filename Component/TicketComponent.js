@@ -23,8 +23,8 @@ export default function Ticket(props){
                 return (
                     <View style={styles.container} key={item.id}>
                         <View style={styles.ticketId}>
-                            <Text>11:35 AM</Text>
-                            <Text>12/24/22</Text>
+                            <Text>{item.time}</Text>
+                            <Text>{item.date}</Text>
                             <Text>Ticket #: {item.id}</Text>
                         </View>
                         <View style={styles.ticketInfo}>

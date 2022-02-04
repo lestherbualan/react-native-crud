@@ -15,6 +15,7 @@ const db = openDatabase({
 
 export default function DashboardScreen({navigation}) {
     const date = moment().format("ll");
+    const time = moment().format('LT');
 
     const [tickets, setTickets] = useState(null);
     
@@ -58,7 +59,7 @@ export default function DashboardScreen({navigation}) {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.dateWrapper}>
-                <Text style={{fontSize: 16 }}>{date}</Text>
+                <Text style={{fontSize: 16 }}>{date} {time}</Text>
             </View>
             <View style={styles.container}>
                 {tickets? <Ticket navigation={navigation} data={tickets}/>: null}

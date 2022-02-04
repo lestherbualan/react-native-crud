@@ -30,6 +30,10 @@ export default function WorkTicketScreen({navigation}) {
         });
     },[])
 
+    const openMap = () =>{
+        navigation.navigate('OpenMap');
+    };
+
     const date = moment().format("LLLL");
 
     if (selectedItem != null){
@@ -53,7 +57,7 @@ export default function WorkTicketScreen({navigation}) {
                                     <Text style={styles.info}>{selectedItem[0].address}</Text>
                                 </View>
                                 <View style={styles.wrapper,{alignContent: 'flex-end'}}>
-                                    <TouchableOpacity style={styles.getDirectionBnt}>
+                                    <TouchableOpacity style={styles.getDirectionBnt} onPress={openMap}>
                                         <Text style={{color: '#ffffff'}}>Get Direction</Text>
                                     </TouchableOpacity>
                                 </View>

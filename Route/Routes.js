@@ -6,6 +6,7 @@ import GetDirectionScreen from "../Screens/GetDirectionScreen"
 import WorkTicketScreen from "../Screens/WorkTicketScreen"
 import CustomHeader from '../Component/CustomHeader'
 import AddTicketScreen from '../Screens/AddTicketScreen';
+import MapScreen from '../Screens/MapScreen';
 
 const screens = {
     Dashboard: {
@@ -22,6 +23,9 @@ const screens = {
     },
     AddTicket: {
         screen: AddTicketScreen
+    },
+    OpenMap: {
+        screen: MapScreen
     }
 }
 

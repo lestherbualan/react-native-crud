@@ -17,6 +17,8 @@ export default function App(){
       transac.executeSql(
         `CREATE TABLE IF NOT EXISTS tickets (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date VARCHAR(20),
+          time VARCHAR(20),
           ticketTitle VARCHAR(20),
           customerName VARCHAR(100),
           customerNumber VARCHAR(20),

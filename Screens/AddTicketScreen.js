@@ -6,15 +6,20 @@ import {
     View,
     ScrollView,
     SafeAreaView,
-    TouchableOpacity
+    TouchableOpacity,
+    ToastAndroid
 } from 'react-native';
 import { openDatabase } from 'react-native-sqlite-storage'
+import moment from 'moment'
 
 const db = openDatabase({
     name: 'test'
   });
 
 export default function AddTicketScreen(){
+
+    const date = moment().format("ll");
+    const time = moment().format('LT');
 
     const [ticketInfo, setTicketInfo] = useState({
         ticketTitle: '',
@@ -34,7 +39,16 @@ export default function AddTicketScreen(){
     const onSubmit = () =>{
         db.transaction((tranx) => {
             tranx.executeSql(
-                "INSERT INTO tickets(ticketTitle,customerName,customerNumber,schedule,address,distance,dispatchNote,departmentClass,serviceType,reason) VALUES ('" + ticketInfo.ticketTitle +"','" + ticketInfo.customerName +"','" + ticketInfo.customerNumber +"','" + ticketInfo.schedule +"','" + ticketInfo.address +"','" + ticketInfo.dispatchNote +"','" + ticketInfo.departmentClass +"','" + ticketInfo.serviceType +"','" + ticketInfo.reason +"')"
+                "INSERT INTO tickets(ticketTitle,date,time,customerName,customerNumber,schedule,address,dispatchNote,departmentClass,serviceType,reason) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                [ticketInfo.ticketTitle,date,time,ticketInfo.customerName,ticketInfo.customerNumber,ticketInfo.schedule,ticketInfo.address, ticketInfo.dispatchNote,ticketInfo.departmentClass,ticketInfo.serviceType,ticketInfo.reason],
+                (_,results) => {
+                    if (results.rowsAffected > 0) {
+                        ToastAndroid.show('Data Inserted Successfully....', ToastAndroid.SHORT)
+                    } else ToastAndroid.show('Failed Insert!', ToastAndroid.SHORT)
+                },
+                error => {
+                    console.log(error)
+                }
             )
         });
     }
